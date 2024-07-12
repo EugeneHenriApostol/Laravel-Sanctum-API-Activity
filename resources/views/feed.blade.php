@@ -46,8 +46,8 @@
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 3px;
-            box-sizing: border-box; /* Ensures padding and border are included in width */
-            resize: vertical; /* Allows vertical resizing of textareas */
+            box-sizing: border-box; 
+            resize: vertical; 
         }
 
         button[type="submit"], button[type="button"] {
@@ -77,7 +77,7 @@
 
         .post p {
             margin-bottom: 10px;
-            word-wrap: break-word; /* Allows long words to wrap */
+            word-wrap: break-word; 
         }
 
         .comment p {
@@ -127,11 +127,11 @@
             @csrf
             <div>
                 <label>Title</label>
-                <input type="text" name="title" style="width: calc(100% - 0px);"> <!-- Adjusting width to account for padding -->
+                <input type="text" name="title" style="width: calc(100% - 0px);"> 
             </div>
             <div>
                 <label>Body</label>
-                <textarea name="body" style="width: calc(100% - 0px); height: 100px;"></textarea> <!-- Adjusting width and height -->
+                <textarea name="body" style="width: calc(100% - 0px); height: 100px;"></textarea> 
             </div>
             <button type="submit">Create Post</button>
         </form>
