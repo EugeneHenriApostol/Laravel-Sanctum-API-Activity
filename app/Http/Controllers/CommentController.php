@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests; 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
-    use AuthorizesRequests; 
-
+    use AuthorizesRequests;
     public function store(Request $request)
     {
         $request->validate([
@@ -21,11 +20,11 @@ class CommentController extends Controller
 
         $comment = Comment::create([
             'post_id' => $request->post_id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'body' => $request->body,
         ]);
 
-        return response()->json($comment, 201);
+        return redirect()->route('feed');
     }
 
     public function update(Request $request, Comment $comment)
@@ -38,7 +37,7 @@ class CommentController extends Controller
 
         $comment->update($request->only('body'));
 
-        return response()->json($comment);
+        return redirect()->route('feed');
     }
 
     public function destroy(Comment $comment)
@@ -47,6 +46,6 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('feed');
     }
 }

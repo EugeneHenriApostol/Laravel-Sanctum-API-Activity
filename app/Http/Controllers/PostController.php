@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Post;
-use App\Models\Comment; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
     use AuthorizesRequests;
-
     public function index()
     {
-        return Post::with('user', 'comments')->get();
+        $posts = Post::with('user', 'comments')->get();
+        return view('feed', compact('posts'));
     }
 
     public function store(Request $request)
@@ -26,17 +25,12 @@ class PostController extends Controller
         ]);
 
         $post = Post::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'title' => $request->title,
             'body' => $request->body,
         ]);
 
-        return response()->json($post, 201);
-    }
-
-    public function show(Post $post)
-    {
-        return $post->load('user', 'comments');
+        return redirect()->route('feed');
     }
 
     public function update(Request $request, Post $post)
@@ -50,7 +44,7 @@ class PostController extends Controller
 
         $post->update($request->only('title', 'body'));
 
-        return response()->json($post);
+        return redirect()->route('feed');
     }
 
     public function destroy(Post $post)
@@ -59,6 +53,6 @@ class PostController extends Controller
 
         $post->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('feed');
     }
 }
